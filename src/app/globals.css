@@ -1,0 +1,709 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Nocturne — Droppzy Entertainment design tokens.
+ * Ported verbatim from C:\Users\sajim\Downloads\Nocturne\styles.css
+ * (source of truth). Do not invent/approximate values here — retune at
+ * the source stylesheet first if a token needs to change.
+ *
+ * Font family strings are intentionally NOT hardcoded: --font-archivo-black,
+ * --font-inter and --font-caveat are supplied by next/font/google's
+ * `variable` option in src/fonts/index.ts + applied on <html>/<body> in
+ * layout.tsx (a later phase). If those vars are ever unset, the plain
+ * fallback stacks below still keep the page readable.
+ */
+
+:root {
+  /* — grounds — */
+  --color-bg: #050505;
+  --color-bg-2: #0a0a0a;
+  --color-surface: #141414;
+  --color-elevated: #1f1f1f;
+  --color-divider: #2a2a2a;
+
+  /* — spotlight — */
+  --color-accent: #f15a29;
+  --color-accent-hover: #ff7a45;
+  --color-accent-glow: rgba(241, 90, 41, 0.35);
+  --color-accent-2: #f15a29;
+  --color-accent-2-hover: #ff7a45;
+
+  /* — paper (text on dark) — */
+  --color-text: #fafaf7;
+  --color-text-dim: #b8b5ae;
+  --color-text-mute: #6b6862;
+
+  /* Tonal ramps — light (100) to dark (900), one shared scale per role. */
+  --color-neutral-100: #fafaf7;
+  --color-neutral-200: #d8d6d0;
+  --color-neutral-300: #b8b5ae;
+  --color-neutral-400: #8f8c86;
+  --color-neutral-500: #6b6862;
+  --color-neutral-600: #4a4844;
+  --color-neutral-700: #2a2a2a;
+  --color-neutral-800: #1f1f1f;
+  --color-neutral-900: #141414;
+
+  --color-accent-100: #fdede6;
+  --color-accent-200: #fbd9c8;
+  --color-accent-300: #f7bca0;
+  --color-accent-400: #f59879;
+  --color-accent-500: #f15a29;
+  --color-accent-600: #d14a1e;
+  --color-accent-700: #a83b17;
+  --color-accent-800: #7a2b11;
+  --color-accent-900: #4a1a0a;
+
+  --color-accent-2-100: #fdede6;
+  --color-accent-2-200: #fbd9c8;
+  --color-accent-2-300: #f7bca0;
+  --color-accent-2-400: #f59879;
+  --color-accent-2-500: #f15a29;
+  --color-accent-2-600: #d14a1e;
+  --color-accent-2-700: #a83b17;
+  --color-accent-2-800: #7a2b11;
+  --color-accent-2-900: #4a1a0a;
+
+  /* Deck / full-bleed section ground: the one place color is a flood, not a line. */
+  --color-section: var(--color-accent);
+  --color-section-glow: var(--color-accent-hover);
+  --color-section-ghost: rgba(241, 90, 41, 0.18);
+
+  /* Titanium — brushed-metal surface variant for premium/backing panels. */
+  --color-titanium: #3a3733;
+  --color-titanium-dim: #2a2723;
+
+  /* Fonts — variable names supplied by next/font in layout.tsx via fonts/index.ts */
+  --font-heading: var(--font-archivo-black), "Arial Black", sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-script: var(--font-caveat), cursive;
+  --font-heading-weight: 400;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 64px;
+  --space-16: 96px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+
+  /* Elevation is a glow, never a soft grey drop shadow. */
+  --shadow-sm: 0 0 0 1px var(--color-divider);
+  --shadow-md: 0 0 0 1px var(--color-divider), 0 0 24px var(--color-accent-glow);
+  --shadow-lg: 0 0 0 1px var(--color-divider), 0 0 56px var(--color-accent-glow);
+
+  /* — motion (new tokens, not present in the source stylesheet) — */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-entrance: 0.8s;
+  --stagger-step: 100ms;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Accounts for the sticky nav height so #anchor jumps don't hide under it. */
+  scroll-padding-top: 88px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-3);
+  }
+  h1 {
+    font-size: 64px;
+  }
+  h2 {
+    font-size: 48px;
+  }
+  h3 {
+    font-size: 32px;
+  }
+  h4 {
+    font-size: 22px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0 0 var(--space-3);
+  }
+
+  a {
+    color: var(--color-accent);
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--color-accent-hover);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    font-size: 12px;
+    margin-top: var(--space-1);
+    color: var(--color-text-mute);
+  }
+
+  .text-muted {
+    color: var(--color-text-dim);
+  }
+
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  }
+}
+
+@layer components {
+  /* — eyebrow labels — signature: a short solid orange rule + tracked orange caps — */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 2px;
+    background: var(--color-accent);
+    flex: none;
+  }
+
+  /* — script accent — the cursive from the logo; sparingly — taglines only — */
+  .script {
+    font-family: var(--font-script);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* — rules — */
+  .hr {
+    height: 1px;
+    border: 0;
+    margin: var(--space-6) 0;
+    background: var(--color-divider);
+  }
+
+  /* — marquee ticker — signature Nocturne element: slow crawl, orange text on black — */
+  .ticker {
+    overflow: hidden;
+    background: var(--color-bg-2);
+    border-top: 1px solid var(--color-divider);
+    border-bottom: 1px solid var(--color-divider);
+    padding: var(--space-4) 0;
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    gap: var(--space-8);
+    animation: ticker-scroll 40s linear infinite;
+  }
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+  .ticker-item {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* — image treatment — cinematic: radial vignette + a wash of spotlight orange — */
+  .lighten {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    background: var(--color-bg-2);
+  }
+  .lighten::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(5, 5, 5, 0.82) 100%),
+      linear-gradient(rgba(241, 90, 41, 0.14), rgba(5, 5, 5, 0.3));
+  }
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 3%, 100% 100%, 0 97%);
+  }
+
+  /* — buttons — solid spotlight primary, outlined secondary, nothing else — */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 18px 32px;
+    border-radius: var(--radius-sm);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .btn svg {
+    display: block;
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    color: var(--color-bg);
+    background: var(--color-accent);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+    box-shadow: 0 0 32px var(--color-accent-glow);
+    transform: translateY(-2px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  .btn-secondary {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+  }
+  .btn-secondary:active {
+    background: color-mix(in srgb, var(--color-text) 8%, transparent);
+  }
+  .btn-ghost {
+    color: var(--color-text-dim);
+    text-transform: none;
+    letter-spacing: 0;
+    padding-inline: var(--space-1);
+    font-family: var(--font-body);
+  }
+  .btn-ghost:hover {
+    color: var(--color-text);
+  }
+  .btn-icon {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+  .btn-block {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
+
+  /* — forms — */
+  .field > label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+    color: var(--color-text-dim);
+    font-family: var(--font-body);
+    font-weight: 600;
+  }
+  .input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--color-text);
+    caret-color: var(--color-accent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+  }
+  .input::placeholder {
+    color: var(--color-text-mute);
+  }
+  .input:hover {
+    border-color: var(--color-text-mute);
+  }
+  .input:focus-visible {
+    border-color: var(--color-accent);
+    outline-offset: 0;
+  }
+  textarea.input {
+    min-height: 110px;
+    resize: vertical;
+  }
+  .radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .radio input,
+  .seg-opt input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+  .radio .dot {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-divider);
+  }
+  .radio:hover .dot {
+    border-color: var(--color-accent);
+  }
+  .radio input:checked + .dot {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 4px var(--color-bg);
+  }
+  .radio input:focus-visible + .dot {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  .seg {
+    display: inline-flex;
+    overflow: hidden;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+  }
+  .seg-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .seg-opt + .seg-opt {
+    border-left: 1px solid var(--color-divider);
+  }
+  .seg-opt:has(input:checked) {
+    color: var(--color-bg);
+    background: var(--color-accent);
+  }
+  .seg-opt:not(:has(input:checked)):hover {
+    background: color-mix(in srgb, var(--color-text) 7%, transparent);
+  }
+  .seg-opt:has(input:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
+
+  /* — titanium surface — brushed-grain backing panel, used sparingly behind hero collages / feature blocks — */
+  .surface-titanium {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(155deg, var(--color-titanium), var(--color-titanium-dim));
+    border: 1px solid var(--color-divider);
+  }
+  .surface-titanium::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* — cards — */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-elevated);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 48px var(--color-accent-glow);
+  }
+  .card-featured {
+    border-top: 2px solid var(--color-accent);
+  }
+  .card-kicker {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .card-title {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 19px;
+    line-height: 1.2;
+  }
+  .card-body {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-text-dim);
+    flex: 1;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--color-text-mute);
+  }
+  .elev-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  .elev-md {
+    box-shadow: var(--shadow-md);
+  }
+  .elev-lg {
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* — tags — */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+  }
+  .tag-accent {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+  .tag-accent-2 {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+  .tag-neutral {
+    background: var(--color-elevated);
+    color: var(--color-text-dim);
+  }
+  .tag-outline {
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* — navigation — */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .nav-brand {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    margin-right: auto;
+  }
+  .nav a {
+    color: var(--color-text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .nav a:hover,
+  .nav a[aria-current="page"] {
+    color: var(--color-accent);
+  }
+
+  /* — tables — */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .table th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-mute);
+    padding: var(--space-3) var(--space-2);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .table td {
+    padding: var(--space-3) var(--space-2);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .table tbody tr:hover {
+    background: color-mix(in srgb, var(--color-text) 4%, transparent);
+  }
+
+  /* — dialog — */
+  .dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: var(--space-4);
+    background: rgba(5, 5, 5, 0.75);
+  }
+  .dialog {
+    width: min(440px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-elevated);
+    box-shadow: var(--shadow-lg);
+  }
+  .dialog-title {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 22px;
+  }
+  .dialog-body {
+    font-size: 14px;
+    color: var(--color-text-dim);
+  }
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  /*
+   * New keyframes for the Hero section's photo collage (not in the source
+   * stylesheet). Applied by a later phase via Tailwind arbitrary animation
+   * syntax (e.g. animate-[photo-float_6s_ease-in-out_infinite]) or a small
+   * utility class.
+   */
+  @keyframes photo-float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes chip-pulse {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.55;
+      transform: scale(0.85);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /*
+   * — stat counters — huge display numerals for the full-bleed accent
+   * Stats band (StatCounter.tsx). Colored var(--color-bg) so they read as
+   * void/black-on-orange sitting on top of the accent band, matching the
+   * Stats/SubscribeStrip full-bleed pattern. Not part of the ported source
+   * stylesheet — added for the React StatCounter component.
+   */
+  .stat-num {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    color: var(--color-bg);
+  }
+  .stat-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    opacity: 0.75;
+  }
+}

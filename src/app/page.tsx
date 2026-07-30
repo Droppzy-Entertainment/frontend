@@ -1,7 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/ui/Marquee";
 import { About } from "@/components/About";
-import { BehindTheScenes } from "@/components/BehindTheScenes";
 import { Categories } from "@/components/Categories";
 import { Videos } from "@/components/Videos";
 import { Stats } from "@/components/Stats";
@@ -25,7 +24,6 @@ export default function HomePage() {
       <Hero />
       <Marquee items={MARQUEE_ITEMS} />
       <About />
-      <BehindTheScenes />
       <Categories />
       <Videos />
       <Stats />

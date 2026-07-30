@@ -66,16 +66,12 @@ export function Footer() {
         <div className="flex flex-wrap items-start justify-between gap-10">
           <div className="flex items-center gap-3">
             <Image
-              // Real brand asset (copied from Downloads\droppzy\, not a
-              // placeholder) — sized larger here than the navbar's lockup
-              // per the footer's more prominent, standalone placement.
-              src="/brand/droppzy-logo.png"
+              src="/brand/DROPPZY LOGO 2-white.png"
               alt="Droppzy Entertainment"
-              width={145}
-              height={40}
-              className="h-10 w-auto"
+              width={200}
+              height={56}
+              className="h-12 w-auto"
             />
-            <span className="nav-brand">Droppzy</span>
           </div>
 
           <div className="flex flex-wrap gap-12">

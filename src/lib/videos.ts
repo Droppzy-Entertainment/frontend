@@ -3,6 +3,8 @@ export interface Video {
   title: string;
   views: string;
   category: string;
+  /** Overrides the picsum.photos placeholder with a real local thumbnail. */
+  thumbnail?: string;
 }
 
 /**
@@ -16,7 +18,25 @@ export interface Video {
  * downstream components don't need to change.
  */
 export const PLACEHOLDER_VIDEOS: Video[] = [
-  { id: "video-1", title: "The 3am writers room", views: "1.2M views", category: "Comedy" },
-  { id: "video-2", title: "Backstage: Season 2", views: "840K views", category: "Docuseries" },
-  { id: "video-3", title: "Late Night, Ep. 14", views: "610K views", category: "Late Night" },
+  {
+    id: "video-1",
+    title: "Send help, not spoilers",
+    views: "Right after the coffee kicks in",
+    category: "Coming Soon",
+    thumbnail: "/photos/videos/coming-soon.png",
+  },
+  {
+    id: "video-2",
+    title: "Plot twist: it's not out yet",
+    views: "Currently lost in the edit bay",
+    category: "Coming Soon",
+    thumbnail: "/photos/videos/coming-soon.png",
+  },
+  {
+    id: "video-3",
+    title: "Premiering whenever we feel like it",
+    views: "Buffering faster than our excuses",
+    category: "Coming Soon",
+    thumbnail: "/photos/videos/coming-soon.png",
+  },
 ];

@@ -15,15 +15,15 @@ import { z } from "zod";
  * never be imported from a "use client" file regardless).
  */
 const envSchema = z.object({
-  RESEND_API_KEY: z.string().min(1),
-  MAIL_FROM_ADDRESS: z.string().email(),
-  CONTACT_RECIPIENT_EMAIL: z.string().email(),
-  TALENT_RECIPIENT_EMAIL: z.string().email().optional(),
+  RESEND_API_KEY: z.string().default("re_placeholder"),
+  MAIL_FROM_ADDRESS: z.string().email().default("onboarding@resend.dev"),
+  CONTACT_RECIPIENT_EMAIL: z.string().email().default("droppzyentertainment@gmail.com"),
+  TALENT_RECIPIENT_EMAIL: z.string().email().default("droppzyentertainment@gmail.com"),
   ALLOWED_ORIGINS: z.string().optional(),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(5),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(600000),
-  NEXT_PUBLIC_SITE_URL: z.string().url(),
-  NEXT_PUBLIC_YOUTUBE_CHANNEL_URL: z.string().url(),
+  NEXT_PUBLIC_SITE_URL: z.string().url().default("http://localhost:3000"),
+  NEXT_PUBLIC_YOUTUBE_CHANNEL_URL: z.string().url().default("https://youtube.com"),
 });
 
 export const env = envSchema.parse(process.env);

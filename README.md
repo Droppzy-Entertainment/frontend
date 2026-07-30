@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/30494815/README.md)
 # Droppzy Entertainment — v1 Website
 
 ## 1. What this is

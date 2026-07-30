@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { Toast } from "@/components/ui/Toast";
 import { TalentFormSchema, type TalentFormValues } from "@/lib/validation";
 import { TALENT_CATEGORY_OPTIONS } from "@/lib/categories";
 
@@ -193,16 +194,22 @@ export function TalentForm() {
         <Button type="submit" variant="primary" isLoading={isSubmitting}>
           Submit
         </Button>
-
-        <div aria-live="polite" aria-atomic="true" className="text-sm">
-          {status === "success" && (
-            <p className="text-[color:var(--color-accent)]">Thanks — we will be in touch.</p>
-          )}
-          {status === "error" && (
-            <p className="text-[#FF6B6B]">Something went wrong. Please try again.</p>
-          )}
-        </div>
       </form>
+
+      {status === "success" && (
+        <Toast
+          message="Thanks — we will be in touch."
+          variant="success"
+          onDismiss={() => setStatus("idle")}
+        />
+      )}
+      {status === "error" && (
+        <Toast
+          message="Something went wrong. Please try again."
+          variant="error"
+          onDismiss={() => setStatus("idle")}
+        />
+      )}
     </Section>
   );
 }

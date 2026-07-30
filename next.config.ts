@@ -37,11 +37,15 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   images: {
-    // Empty in v1 — no remote images are fetched (all imagery is either the
-    // real local logo asset or CSS/SVG placeholders, see PlaceholderImage).
+    // picsum.photos: TEMPORARY stock photography for the About and Videos
+    // sections (real cast/thumbnail stills still needed — see the
+    // PLACEHOLDER comments in About.tsx / Videos.tsx). Fetched server-side
+    // by Next's image optimizer, so the browser only ever requests
+    // same-origin `/_next/image` — the `img-src 'self'` CSP in
+    // lib/security.ts does not need to change.
     // PLACEHOLDER: v2 documented addition — add `{ protocol: 'https', hostname: 'i.ytimg.com' }`
     // here once real YouTube thumbnail embeds replace the placeholder video cards.
-    remotePatterns: [],
+    remotePatterns: [{ protocol: "https", hostname: "picsum.photos" }],
   },
   async headers() {
     return [

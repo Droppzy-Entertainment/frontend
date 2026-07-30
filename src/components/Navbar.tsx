@@ -51,7 +51,7 @@ export function Navbar() {
           alt="Droppzy Entertainment"
           width={200}
           height={56}
-          className="h-14 w-auto"
+          className="h-9 w-auto sm:h-12 md:h-14"
           priority
         />
       </a>

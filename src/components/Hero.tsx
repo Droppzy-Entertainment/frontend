@@ -80,7 +80,7 @@ export function Hero() {
           </p>
 
           <h1
-            className="hero-copy-in font-heading text-[clamp(52px,6vw,96px)] uppercase leading-[0.9] tracking-[0.01em] text-text"
+            className="hero-copy-in font-heading text-[clamp(34px,10vw,52px)] sm:text-[clamp(52px,6vw,96px)] uppercase leading-[0.9] tracking-[0.01em] text-text"
             style={{ animationDelay: "0.1s" }}
           >
             <span className="block">Droppzy</span>

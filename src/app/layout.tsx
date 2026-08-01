@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { headers } from "next/headers";
-import { archivoBlack, inter, caveat } from "@/fonts";
+import { anton, inter, caveat } from "@/fonts";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -61,7 +61,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${archivoBlack.variable} ${inter.variable} ${caveat.variable} font-body`}
+        className={`${anton.variable} ${inter.variable} ${caveat.variable} font-body`}
         data-csp-nonce={nonce}
       >
         <Navbar />

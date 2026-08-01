@@ -1,4 +1,4 @@
-import { Archivo_Black, Inter, Caveat } from "next/font/google";
+import { Anton, Inter, Caveat } from "next/font/google";
 
 /**
  * Nocturne type system, self-hosted via next/font/google.
@@ -8,9 +8,9 @@ import { Archivo_Black, Inter, Caveat } from "next/font/google";
  * app/layout.tsx (a later phase) so the variables exist at render time.
  */
 
-export const archivoBlack = Archivo_Black({
+export const anton = Anton({
   weight: "400",
-  variable: "--font-archivo-black",
+  variable: "--font-anton",
   subsets: ["latin"],
   display: "swap",
 });

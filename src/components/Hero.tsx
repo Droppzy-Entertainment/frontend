@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
  * Hero — above-the-fold section. Server Component: zero client JS.
  *
  * Layout matches the design reference:
- * - Left: tagline, headline (Archivo Black), body text, two CTA buttons
+ * - Left: tagline, headline (Anton), body text, two CTA buttons
  * - Right: 2×2 collage of tilted photo cards with float animation
  * - Background: large warm amber/reddish radial glow on the right half,
  *   matching the stage-spotlight look from the reference.

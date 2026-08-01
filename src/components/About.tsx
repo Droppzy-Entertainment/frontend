@@ -11,7 +11,7 @@ export function About() {
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="lg:pt-4">
           <Eyebrow>Who we are</Eyebrow>
-          <h2 className="mt-4 font-heading text-[clamp(36px,4vw,56px)] uppercase leading-[0.95] tracking-[-0.01em] text-text">
+          <h2 className="mt-4 font-heading text-[clamp(36px,4vw,56px)] uppercase leading-[0.92] tracking-[-0.04em] text-text">
             Built after dark
           </h2>
           <p className="mt-6 max-w-[54ch] text-lg leading-[1.75] text-text-dim">

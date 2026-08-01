@@ -14,6 +14,7 @@ interface FooterColumnProps {
 
 const CONTENT_LINKS: FooterLink[] = [
   { label: "What We Create", href: "#create" },
+  { label: "Latest Videos", href: "#videos" },
 ];
 
 const STUDIO_LINKS: FooterLink[] = [

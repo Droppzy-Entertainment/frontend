@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/ui/Marquee";
 import { About } from "@/components/About";
 import { Categories } from "@/components/Categories";
+import { Videos } from "@/components/Videos";
 import { Stats } from "@/components/Stats";
 import { TalentForm } from "@/components/TalentForm";
 import { SubscribeStrip } from "@/components/SubscribeStrip";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Marquee items={MARQUEE_ITEMS} />
       <About />
       <Categories />
+      {/* Hidden for now until live video links are ready: <Videos /> */}
       <Stats />
       <TalentForm />
       <SubscribeStrip />

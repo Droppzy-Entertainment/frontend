@@ -9,7 +9,6 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { Toast } from "@/components/ui/Toast";
 import { TalentFormSchema, type TalentFormValues } from "@/lib/validation";
@@ -128,19 +127,20 @@ export function TalentForm() {
         </Field>
 
         <Field
-          label="Reel or portfolio link"
-          htmlFor="talent-portfolio-url"
-          error={errors.portfolioUrl?.message}
+          label="WhatsApp number"
+          htmlFor="talent-whatsapp-number"
+          error={errors.whatsappNumber?.message}
         >
           <Input
-            id="talent-portfolio-url"
-            type="url"
-            placeholder="https://"
-            aria-invalid={errors.portfolioUrl ? "true" : undefined}
+            id="talent-whatsapp-number"
+            type="tel"
+            autoComplete="tel"
+            placeholder="+94 7# ### ####"
+            aria-invalid={errors.whatsappNumber ? "true" : undefined}
             aria-describedby={
-              errors.portfolioUrl ? "talent-portfolio-url-error" : undefined
+              errors.whatsappNumber ? "talent-whatsapp-number-error" : undefined
             }
-            {...register("portfolioUrl")}
+            {...register("whatsappNumber")}
           />
         </Field>
 
@@ -161,16 +161,6 @@ export function TalentForm() {
               </option>
             ))}
           </Select>
-        </Field>
-
-        <Field label="What do you make?" htmlFor="talent-message" error={errors.message?.message}>
-          <Textarea
-            id="talent-message"
-            rows={4}
-            aria-invalid={errors.message ? "true" : undefined}
-            aria-describedby={errors.message ? "talent-message-error" : undefined}
-            {...register("message")}
-          />
         </Field>
 
         {/*

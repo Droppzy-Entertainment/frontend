@@ -86,9 +86,8 @@ function renderTalentEmailHtml(data: TalentFormValues): string {
   return renderEmailShell("New Talent Submission", [
     { label: "Name", value: escapeHtml(data.name) },
     { label: "Email", value: escapeHtml(data.email) },
-    { label: "Portfolio URL", value: escapeHtml(data.portfolioUrl) },
+    { label: "WhatsApp Number", value: escapeHtml(data.whatsappNumber) },
     { label: "Category", value: escapeHtml(data.category) },
-    { label: "Message", value: escapeHtml(data.message).replace(/\n/g, "<br />") },
   ]);
 }
 

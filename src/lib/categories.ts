@@ -22,7 +22,7 @@ export interface Category {
  * NOTE: intentionally decoupled from TALENT_CATEGORY_OPTIONS below — this
  * list feeds the display-only "What We Create" cards, while the talent
  * form's dropdown is checked server-side against lib/validation.ts's
- * TalentCategoryEnum, which only recognizes the 5 legacy values. Expanding
+ * TalentCategoryEnum, which only recognizes its own 3 values. Expanding
  * this list does not change what the talent form accepts.
  */
 export const CATEGORIES: Category[] = [
@@ -79,7 +79,7 @@ export const CATEGORIES: Category[] = [
 ];
 
 export interface TalentCategoryOption {
-  value: "comedy" | "docuseries" | "late-night" | "music" | "shorts-live" | "other";
+  value: "story-draft" | "illustration-design" | "other";
   label: string;
   description: string;
 }
@@ -90,36 +90,16 @@ export interface TalentCategoryOption {
  * TalentCategoryEnum exactly (server-side validated, not sourced from this
  * file). Not the "What We Create" copy — do not merge the two.
  */
-const TALENT_FORM_CATEGORIES: TalentCategoryOption[] = [
+export const TALENT_CATEGORY_OPTIONS: TalentCategoryOption[] = [
   {
-    value: "comedy",
-    label: "Comedy",
-    description: "Sketches, panel shows and bits that only work at 1am.",
+    value: "story-draft",
+    label: "Story Draft",
+    description: "Scripts, treatments and story ideas ready for the room.",
   },
   {
-    value: "docuseries",
-    label: "Docuseries",
-    description: "Long-form profiles of people who don't sleep either.",
-  },
-  {
-    value: "late-night",
-    label: "Late Night",
-    description: "A weekly show shot after the rest of the internet clocks out.",
-  },
-  {
-    value: "music",
-    label: "Music",
-    description: "Sessions, drops and the occasional 2am freestyle.",
-  },
-  {
-    value: "shorts-live",
-    label: "Shorts & Live",
-    description: "Same voice, cut for the scroll and the stream.",
+    value: "illustration-design",
+    label: "Illustration Design",
+    description: "Character art, key visuals and design work for the slate.",
   },
 ];
 
-/** TALENT_FORM_CATEGORIES plus a catch-all "Other" option, for the talent form's select. */
-export const TALENT_CATEGORY_OPTIONS: TalentCategoryOption[] = [
-  ...TALENT_FORM_CATEGORIES,
-  { value: "other", label: "Other", description: "" },
-];

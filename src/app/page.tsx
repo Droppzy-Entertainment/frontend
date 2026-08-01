@@ -6,8 +6,11 @@ import { Videos } from "@/components/Videos";
 import { Stats } from "@/components/Stats";
 import { TalentForm } from "@/components/TalentForm";
 import { SubscribeStrip } from "@/components/SubscribeStrip";
+import { CATEGORIES } from "@/lib/categories";
 
-const MARQUEE_ITEMS = ["Comedy", "Docuseries", "Late Night", "Music", "Shorts", "Live"];
+// Reuses the same "What We Create" categories shown in components/Categories.tsx
+// (lib/categories.ts is the single source of truth) rather than its own list.
+const MARQUEE_ITEMS = CATEGORIES.map((category) => category.label);
 
 export default function HomePage() {
   return (

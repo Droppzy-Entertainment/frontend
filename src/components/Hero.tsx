@@ -91,7 +91,7 @@ export function Hero() {
             style={{ animationDelay: "0.2s" }}
           >
             Your destination for exciting, original, high-quality
-            entertainment.
+            entertainment
           </p>
 
           <div

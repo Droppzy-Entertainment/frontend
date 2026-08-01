@@ -16,7 +16,7 @@ export default function HomePage() {
       <Marquee items={MARQUEE_ITEMS} />
       <About />
       <Categories />
-      <Videos />
+      {/* Hidden for now until live video links are ready: <Videos /> */}
       <Stats />
       <TalentForm />
       <SubscribeStrip />

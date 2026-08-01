@@ -10,7 +10,6 @@ export const NAV_LINKS: NavLink[] = [
   { label: "About", href: "#about" },
   { label: "Content", href: "#create" },
   { label: "Talent", href: "#talent" },
-  { label: "Contact", href: "#contact" },
 ];
 
 // NEXT_PUBLIC_YOUTUBE_CHANNEL_URL should be read directly via

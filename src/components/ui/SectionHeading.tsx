@@ -26,8 +26,12 @@ export function SectionHeading({
   return (
     <div className={cn("mb-8 md:mb-12", align === "center" && "text-center")}>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-3">{heading}</h2>
-      {intro && <p className="text-muted mt-3 max-w-[640px]">{intro}</p>}
+      <h2 className="mt-3 uppercase tracking-[-0.04em] leading-[0.92]">{heading}</h2>
+      {intro && (
+        <p className={cn("text-muted mt-3 max-w-[640px]", align === "center" && "mx-auto")}>
+          {intro}
+        </p>
+      )}
     </div>
   );
 }

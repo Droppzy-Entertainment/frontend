@@ -98,8 +98,13 @@ export function TalentForm() {
         eyebrow="Join the cast"
         heading="Talent form"
         intro="Writers, editors, musicians, night owls — tell us what you make and when you make it."
+        align="center"
       />
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="max-w-[52ch] space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="mx-auto max-w-[52ch] space-y-6"
+      >
         <Field label="Name" htmlFor="talent-name" error={errors.name?.message}>
           <Input
             id="talent-name"

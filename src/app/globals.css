@@ -137,7 +137,7 @@ html {
     font-family: var(--font-heading);
     font-weight: var(--font-heading-weight);
     line-height: 1.05;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     margin: 0 0 var(--space-3);
   }
   h1 {
@@ -327,7 +327,13 @@ html {
     color: var(--color-bg);
     background: var(--color-accent);
   }
+  .btn-primary:visited,
+  .btn-primary:focus,
+  .btn-primary:active {
+    color: var(--color-bg);
+  }
   .btn-primary:hover {
+    color: var(--color-bg);
     background: var(--color-accent-hover);
     box-shadow: 0 0 32px var(--color-accent-glow);
     transform: translateY(-2px);
@@ -339,7 +345,13 @@ html {
     border-color: var(--color-text);
     color: var(--color-text);
   }
+  .btn-secondary:visited,
+  .btn-secondary:focus,
+  .btn-secondary:active {
+    color: var(--color-text);
+  }
   .btn-secondary:hover {
+    color: var(--color-text);
     border-color: var(--color-accent);
   }
   .btn-secondary:active {

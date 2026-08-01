@@ -6,18 +6,9 @@ import { Videos } from "@/components/Videos";
 import { Stats } from "@/components/Stats";
 import { TalentForm } from "@/components/TalentForm";
 import { SubscribeStrip } from "@/components/SubscribeStrip";
-import { Contact } from "@/components/Contact";
 
-// Ticker copy for the marquee band between Hero and About. Kept local to
-// this Server Component (rather than lib/constants.ts) since it's purely
-// decorative chrome, not shared/source-of-truth copy like lib/categories.ts.
 const MARQUEE_ITEMS = ["Comedy", "Docuseries", "Late Night", "Music", "Shorts", "Live"];
 
-/**
- * Server Component — composes every page section in order. Navbar/Footer
- * live in app/layout.tsx, not here, since they're persistent chrome shared
- * across the (currently single) route.
- */
 export default function HomePage() {
   return (
     <>
@@ -29,7 +20,6 @@ export default function HomePage() {
       <Stats />
       <TalentForm />
       <SubscribeStrip />
-      <Contact />
     </>
   );
 }

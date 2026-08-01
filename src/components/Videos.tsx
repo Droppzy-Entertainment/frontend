@@ -30,7 +30,7 @@ export function Videos() {
               </div>
             </div>
 
-            <h3 className="card-title mt-4 text-xl font-heading uppercase tracking-tight text-text transition-colors group-hover:text-accent">
+            <h3 className="card-title mt-4 text-xl font-heading uppercase tracking-[-0.03em] text-text transition-colors group-hover:text-accent">
               {video.title}
             </h3>
             <p className="card-meta mt-1 text-sm text-text-dim">

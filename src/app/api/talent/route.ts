@@ -129,7 +129,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // field that also reaches a header-adjacent position — the outbound
     // `subject` line (`Droppzy talent form: ${data.category}`) — is a
     // strict Zod enum value here (TalentCategoryEnum), so it can only ever
-    // be one of six fixed literal strings and needs no redundant
+    // be one of three fixed literal strings and needs no redundant
     // sanitization (unlike Contact's free-text `subject` field — see
     // api/contact/route.ts, which does add one).
 

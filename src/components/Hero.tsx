@@ -1,42 +1,45 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 
 /**
  * Hero — above-the-fold section. Server Component: zero client JS.
  *
- * The old static template drove the photo collage with a JS `mousemove`
- * parallax handler. Per the plan (judgment call #7) that is intentionally
- * DROPPED here — only the CSS `photo-float` / `chip-pulse` keyframes
- * (already defined in globals.css) are kept, so this whole section can stay
- * server-rendered.
- *
- * Entrance animation choice: the brief offered two options for the
- * mount-triggered copy-block entrance — a Framer Motion stagger (which would
- * require "use client") or a small local CSS animation. This component uses
- * the latter: a scoped `<style>` block (NOT an edit to the shared
- * globals.css) defining one small keyframe plus staggered
- * `animation-delay`s, so the hero ships with no client-side JavaScript at
- * all. The block also reuses the design system's own `--duration-entrance`
- * / `--ease-cinematic` motion tokens and adds `prefers-reduced-motion`
- * handling for every animation this component uses (the shared stylesheet
- * has no universal reduced-motion override, so each animated component is
- * responsible for its own — matching the pattern used by Section.tsx's
- * `useReducedMotion()` and Marquee's documented reduced-motion behavior).
+ * Layout matches the design reference:
+ * - Left: tagline, headline (Anton), body text, two CTA buttons
+ * - Right: 2×2 collage of tilted photo cards with float animation
+ * - Background: large warm amber/reddish radial glow on the right half,
+ *   matching the stage-spotlight look from the reference.
  */
+
 export function Hero() {
   return (
-    <section
-      // NOTE: no id="top" here — app/layout.tsx's <main id="top"> (which
-      // directly wraps this Hero as page.tsx's first child) already owns
-      // that anchor target, so this section intentionally doesn't duplicate
-      // the id (duplicate DOM ids are invalid HTML and ambiguous for
-      // fragment-navigation/`getElementById`).
-      className="relative overflow-hidden bg-[radial-gradient(900px_700px_at_72%_22%,color-mix(in_srgb,var(--color-accent)_16%,transparent),transparent_62%),var(--color-bg)]"
-    >
+    <section className="relative overflow-hidden" style={{ background: "var(--color-bg)" }}>
       <style>{`
+        /* Large warm stage-light glow — covers the full right half */
+        .hero-glow {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            radial-gradient(
+              ellipse 90% 100% at 78% 45%,
+              rgba(160, 45, 10, 0.72) 0%,
+              rgba(120, 30, 5, 0.45) 30%,
+              transparent 65%
+            );
+        }
+
+        /* Bottom-edge vignette darkens the section floor */
+        .hero-vignette {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background: radial-gradient(ellipse at center, transparent 50%, rgba(5,5,5,0.75) 100%);
+        }
+
         @keyframes hero-copy-in {
           from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         .hero-copy-in {
           animation: hero-copy-in var(--duration-entrance) var(--ease-cinematic) both;
@@ -47,122 +50,179 @@ export function Hero() {
         .hero-chip-dot {
           animation: chip-pulse 1.6s ease-in-out infinite;
         }
+        @keyframes hero-badge-float {
+          0%, 100% { transform: translateY(0); }
+          50%       { transform: translateY(-6px); }
+        }
+        .hero-badge-float {
+          animation: hero-badge-float 4s ease-in-out infinite;
+        }
         @media (prefers-reduced-motion: reduce) {
-          .hero-copy-in {
-            animation: none;
-            opacity: 1;
-            transform: none;
-          }
-          .hero-photo,
-          .hero-chip-dot {
-            animation: none;
-          }
+          .hero-copy-in { animation: none; opacity: 1; transform: none; }
+          .hero-photo, .hero-chip-dot, .hero-badge-float { animation: none; }
         }
       `}</style>
 
-      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-12 px-4 py-16 md:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        {/* Copy column — 1.1fr on desktop; stacks BELOW the collage on mobile via order utilities */}
-        <div className="order-2 lg:order-1">
+      {/* Stage-light amber glow */}
+      <div aria-hidden="true" className="hero-glow" />
+      {/* Edge vignette */}
+      <div aria-hidden="true" className="hero-vignette" />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-8 px-4 py-16 md:px-8 md:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
+
+        {/* ── Left: copy column ── */}
+        <div>
           <p
-            className="script hero-copy-in mb-4 text-[clamp(22px,2.4vw,30px)]"
+            className="script hero-copy-in mb-5 text-[clamp(20px,2vw,30px)] text-text"
             style={{ animationDelay: "0s" }}
           >
-            after dark, the show begins
+            Where Creativity Meets Entertainment
           </p>
 
           <h1
-            // Mobile fix: the source design token clamp(72px,11vw,180px) is
-            // a FLAT 72px for any viewport under 654px wide (11vw doesn't
-            // exceed the 72px floor until then), which overflows a phone
-            // screen for a single unbreakable word like "Entertainment".
-            // Lowering the floor to 40px keeps the same 11vw/180px curve
-            // (unchanged desktop appearance) while letting it scale down on
-            // small screens; `break-words` is a safety net that guarantees
-            // no horizontal page overflow regardless of exact font metrics.
-            className="hero-copy-in break-words font-heading text-[clamp(40px,11vw,180px)] uppercase leading-[0.9] tracking-[-0.03em] text-text"
+            className="hero-copy-in font-heading text-[clamp(34px,10vw,52px)] sm:text-[clamp(52px,6vw,96px)] uppercase leading-[0.9] tracking-[-0.04em] text-text"
             style={{ animationDelay: "0.1s" }}
           >
-            <span className="block">Droppzy</span>
-            <span className="block">Entertainment</span>
+            Droppzy Entertainment
           </h1>
 
           <p
-            className="hero-copy-in mt-6 max-w-[58ch] text-lg leading-relaxed text-text-dim"
+            className="hero-copy-in mt-8 max-w-[600px] text-[clamp(15px,1.2vw,18px)] leading-[1.75] text-text-dim"
             style={{ animationDelay: "0.2s" }}
           >
-            Comedy, docuseries and late-night built for the feed that never
-            sleeps. New drops every week — the crew that treats YouTube like
-            a stage, not an upload folder.
+            Your destination for exciting, original, high-quality
+            entertainment
           </p>
 
           <div
-            className="hero-copy-in mt-8 flex flex-wrap gap-4"
+            className="hero-copy-in mt-9 flex flex-wrap gap-4"
             style={{ animationDelay: "0.3s" }}
           >
-            {/* PLACEHOLDER: real Droppzy Entertainment YouTube channel URL — sourced from NEXT_PUBLIC_YOUTUBE_CHANNEL_URL (see .env.example) */}
-            <Button variant="primary" href={process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_URL}>
+            <Button
+              variant="primary"
+              href={process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_URL}
+              className="min-h-[58px] min-w-[250px] justify-center text-[13px] tracking-[0.12em]"
+            >
               Subscribe on YouTube
             </Button>
-            <Button variant="secondary" href="#create">
+            <Button
+              variant="secondary"
+              href="#create"
+              className="min-h-[58px] min-w-[230px] justify-center text-[13px] tracking-[0.12em] transition-all duration-300 hover:border-white hover:bg-white hover:text-[color:var(--color-bg)]"
+            >
               Explore Content
             </Button>
           </div>
         </div>
 
-        {/* Collage column — 0.9fr on desktop; stacks ABOVE the copy on mobile via order utilities */}
-        <div className="relative order-1 mx-auto aspect-square w-full max-w-[420px] sm:max-w-[480px] lg:order-2 lg:mx-0">
-          {/* PLACEHOLDER: real cast / behind-the-scenes stills for all 4 hero collage photos below */}
+        {/* ── Right: 5-card photo collage ── */}
+        <div className="relative mx-auto h-[540px] w-full max-w-[560px] lg:mx-0 lg:h-[620px] lg:max-w-none">
+
+          {/* TOP-LEFT card */}
           <div
-            className="hero-photo absolute left-[6%] top-[2%] w-[34%] -rotate-[7deg]"
+            className="hero-photo absolute left-[-2%] top-[0%] w-[48%] z-10"
             style={{ animationDelay: "0s" }}
           >
-            <PlaceholderImage
-              label="Hero collage photo 1 — cast still one"
-              aspect="3/4"
-              className="w-full"
-            />
-          </div>
-          <div
-            className="hero-photo absolute right-[4%] top-0 w-[40%] rotate-[5deg]"
-            style={{ animationDelay: "0.4s" }}
-          >
-            <PlaceholderImage
-              label="Hero collage photo 2 — cast still two"
-              aspect="4/5"
-              className="w-full"
-            />
-          </div>
-          <div
-            className="hero-photo absolute bottom-[6%] left-0 w-[30%] rotate-[4deg]"
-            style={{ animationDelay: "0.8s" }}
-          >
-            <PlaceholderImage
-              label="Hero collage photo 3 — cast still three"
-              aspect="4/5"
-              className="w-full"
-            />
-          </div>
-          <div
-            className="hero-photo absolute bottom-0 right-[8%] w-[36%] -rotate-[4deg]"
-            style={{ animationDelay: "1.2s" }}
-          >
-            <PlaceholderImage
-              label="Hero collage photo 4 — cast still four"
-              aspect="3/4"
-              className="w-full"
-            />
+            <div className="-rotate-[6deg]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_12px_56px_rgba(0,0,0,0.7)]">
+                <Image
+                  src="/photos/hero/hero-1.jpg"
+                  alt="On stage speaking at ICBTHONS to a cheering crowd"
+                  fill
+                  sizes="(max-width: 768px) 45vw, 280px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
           </div>
 
-          <span className="absolute left-[30%] top-[4%] z-10 inline-flex items-center gap-2 rounded-full border border-divider bg-[color-mix(in_srgb,var(--color-bg)_78%,transparent)] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.05em] text-accent shadow-sm backdrop-blur">
-            <span
-              aria-hidden="true"
-              className="hero-chip-dot h-1.5 w-1.5 rounded-full bg-accent"
-            />
+          {/* TOP-RIGHT card */}
+          <div
+            className="hero-photo absolute right-[-2%] top-[-3%] w-[50%] z-10"
+            style={{ animationDelay: "0.4s" }}
+          >
+            <div className="rotate-[5deg]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_12px_56px_rgba(0,0,0,0.7)]">
+                <Image
+                  src="/photos/hero/hero-2.jpg"
+                  alt="Jumping mid-dance move on stage in front of a cheering crowd"
+                  fill
+                  sizes="(max-width: 768px) 45vw, 290px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* CENTER card — fills the middle gap in landscape format */}
+          <div
+            className="hero-photo absolute left-[19%] top-[40%] w-[62%] z-20"
+            style={{ animationDelay: "0.7s" }}
+          >
+            <div className="rotate-[2deg]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl shadow-[0_16px_56px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_20px_64px_rgba(0,0,0,0.95)]">
+                <Image
+                  src="/photos/hero/hero-3.jpg"
+                  alt="Accepting the Best Actor trophy at the Global Film Awards"
+                  fill
+                  sizes="(max-width: 868px) 60vw, 360px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM-LEFT card */}
+          <div
+            className="hero-photo absolute bottom-[-5%] left-[2%] w-[44%] z-10"
+            style={{ animationDelay: "1s" }}
+          >
+            <div className="rotate-[4deg]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_12px_56px_rgba(0,0,0,0.7)]">
+                <Image
+                  src="/photos/hero/hero-4.jpg"
+                  alt="Stand-up comedy set at Comedy Live"
+                  fill
+                  sizes="(max-width: 768px) 45vw, 260px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* BOTTOM-RIGHT card */}
+          <div
+            className="hero-photo absolute bottom-[-6%] right-[-2%] w-[46%] z-10"
+            style={{ animationDelay: "1.3s" }}
+          >
+            <div className="-rotate-[4deg]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_12px_56px_rgba(0,0,0,0.7)]">
+                <Image
+                  src="/photos/hero/hero-5.jpg"
+                  alt="Singing into a microphone on stage with a live band"
+                  fill
+                  sizes="(max-width: 768px) 45vw, 280px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* LIVE NOW badge — top center between cards */}
+          <span
+            className="hero-badge-float absolute left-[38%] top-[4%] z-30 inline-flex items-center gap-2 rounded-full border border-divider bg-[rgba(10,10,10,0.85)] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-accent shadow-lg backdrop-blur-md"
+            style={{ animationDelay: "0s" }}
+          >
+            <span aria-hidden="true" className="hero-chip-dot h-1.5 w-1.5 rounded-full bg-accent" />
             Live now
           </span>
 
-          {/* PLACEHOLDER: illustrative social-proof reaction count — swap for a real, live engagement metric */}
-          <span className="absolute bottom-[28%] right-[-2%] z-10 inline-flex items-center rounded-full border border-divider bg-[color-mix(in_srgb,var(--color-bg)_78%,transparent)] px-4 py-2 text-xs text-text shadow-sm backdrop-blur">
+          {/* 🔥 reaction badge — bottom right */}
+          <span
+            className="hero-badge-float absolute bottom-[14%] right-[-1%] z-30 inline-flex items-center gap-1 rounded-full border border-divider bg-[rgba(10,10,10,0.85)] px-4 py-2 text-xs text-text shadow-lg backdrop-blur-md"
+            style={{ animationDelay: "1.5s" }}
+          >
             🔥 2.4k reacting
           </span>
         </div>

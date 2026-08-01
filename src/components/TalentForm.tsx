@@ -9,8 +9,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { Toast } from "@/components/ui/Toast";
 import { TalentFormSchema, type TalentFormValues } from "@/lib/validation";
 import { TALENT_CATEGORY_OPTIONS } from "@/lib/categories";
 
@@ -97,8 +97,13 @@ export function TalentForm() {
         eyebrow="Join the cast"
         heading="Talent form"
         intro="Writers, editors, musicians, night owls — tell us what you make and when you make it."
+        align="center"
       />
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="max-w-[52ch] space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="mx-auto max-w-[52ch] space-y-6"
+      >
         <Field label="Name" htmlFor="talent-name" error={errors.name?.message}>
           <Input
             id="talent-name"
@@ -122,19 +127,20 @@ export function TalentForm() {
         </Field>
 
         <Field
-          label="Reel or portfolio link"
-          htmlFor="talent-portfolio-url"
-          error={errors.portfolioUrl?.message}
+          label="WhatsApp number"
+          htmlFor="talent-whatsapp-number"
+          error={errors.whatsappNumber?.message}
         >
           <Input
-            id="talent-portfolio-url"
-            type="url"
-            placeholder="https://"
-            aria-invalid={errors.portfolioUrl ? "true" : undefined}
+            id="talent-whatsapp-number"
+            type="tel"
+            autoComplete="tel"
+            placeholder="+94 7# ### ####"
+            aria-invalid={errors.whatsappNumber ? "true" : undefined}
             aria-describedby={
-              errors.portfolioUrl ? "talent-portfolio-url-error" : undefined
+              errors.whatsappNumber ? "talent-whatsapp-number-error" : undefined
             }
-            {...register("portfolioUrl")}
+            {...register("whatsappNumber")}
           />
         </Field>
 
@@ -155,16 +161,6 @@ export function TalentForm() {
               </option>
             ))}
           </Select>
-        </Field>
-
-        <Field label="What do you make?" htmlFor="talent-message" error={errors.message?.message}>
-          <Textarea
-            id="talent-message"
-            rows={4}
-            aria-invalid={errors.message ? "true" : undefined}
-            aria-describedby={errors.message ? "talent-message-error" : undefined}
-            {...register("message")}
-          />
         </Field>
 
         {/*
@@ -193,16 +189,22 @@ export function TalentForm() {
         <Button type="submit" variant="primary" isLoading={isSubmitting}>
           Submit
         </Button>
-
-        <div aria-live="polite" aria-atomic="true" className="text-sm">
-          {status === "success" && (
-            <p className="text-[color:var(--color-accent)]">Thanks — we will be in touch.</p>
-          )}
-          {status === "error" && (
-            <p className="text-[#FF6B6B]">Something went wrong. Please try again.</p>
-          )}
-        </div>
       </form>
+
+      {status === "success" && (
+        <Toast
+          message="Thanks — we will be in touch."
+          variant="success"
+          onDismiss={() => setStatus("idle")}
+        />
+      )}
+      {status === "error" && (
+        <Toast
+          message="Something went wrong. Please try again."
+          variant="error"
+          onDismiss={() => setStatus("idle")}
+        />
+      )}
     </Section>
   );
 }

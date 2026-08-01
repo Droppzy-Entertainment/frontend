@@ -78,9 +78,15 @@ export function Button({
   disabled,
   ...rest
 }: ButtonProps) {
+  const variantClasses = {
+    primary: "btn-primary",
+    secondary: "btn-secondary",
+    ghost: "btn-ghost",
+  };
+
   const classes = cn(
     "btn",
-    `btn-${variant}`,
+    variantClasses[variant],
     icon && "btn-icon",
     block && "btn-block",
     variant === "secondary" &&

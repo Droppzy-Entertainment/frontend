@@ -7,11 +7,22 @@
  */
 
 export function buildCSP(nonce: string): string {
+  // Next's dev server (`next dev`) injects eval-based scripts for Fast
+  // Refresh/source maps — without 'unsafe-eval' here, the strict prod CSP
+  // silently blocks React from hydrating in dev, so event handlers (e.g.
+  // form onSubmit) never attach and forms fall back to a native GET submit.
+  // Production builds (`next build`/`next start`) don't use eval and are
+  // unaffected, so this only loosens the policy for local development.
+  const scriptSrc =
+    process.env.NODE_ENV === "development"
+      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval'`
+      : `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`;
+
   const directives = [
     "default-src 'self'",
     "base-uri 'self'",
     "object-src 'none'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    scriptSrc,
     // 'unsafe-inline' is scoped to styles only: Framer Motion sets inline
     // `style` attributes for animation. Style injection isn't a
     // script-execution vector, so script-src stays fully locked down.

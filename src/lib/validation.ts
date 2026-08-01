@@ -6,29 +6,18 @@ import { z } from "zod";
  * the API route handlers. No duplicate validation logic anywhere else.
  */
 
-export const httpsUrlSchema = z
+export const whatsappNumberSchema = z
   .string()
   .trim()
-  .max(500)
-  .url()
-  .refine((value) => {
-    try {
-      return new URL(value).protocol === "https:";
-    } catch {
-      return false;
-    }
-  }, "URL must use https://");
+  .min(9, "Enter a valid WhatsApp number")
+  .max(13, "Enter a valid WhatsApp number")
+  .regex(/^\+?[0-9\s-]+$/, "Enter a valid WhatsApp number");
 
-export const TALENT_CATEGORY_VALUES = [
-  "comedy",
-  "docuseries",
-  "late-night",
-  "music",
-  "shorts-live",
-  "other",
-] as const;
+export const TALENT_CATEGORY_VALUES = ["story-draft", "illustration-design", "other"] as const;
 
-export const TalentCategoryEnum = z.enum(TALENT_CATEGORY_VALUES);
+export const TalentCategoryEnum = z.enum(TALENT_CATEGORY_VALUES, {
+  message: "Must select one",
+});
 
 // Honeypot field: real users never see or fill this input. Any non-empty
 // value indicates a bot. Empty string and "not present" both pass.
@@ -38,9 +27,8 @@ export const TalentFormSchema = z
   .object({
     name: z.string().trim().min(2).max(100),
     email: z.string().trim().toLowerCase().email().max(254),
-    portfolioUrl: httpsUrlSchema,
+    whatsappNumber: whatsappNumberSchema,
     category: TalentCategoryEnum,
-    message: z.string().trim().min(10).max(2000),
     company_website: honeypotSchema,
     formRenderedAt: z.number().int().positive(),
   })

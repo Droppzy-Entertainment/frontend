@@ -8,7 +8,7 @@
  * (source of truth). Do not invent/approximate values here — retune at
  * the source stylesheet first if a token needs to change.
  *
- * Font family strings are intentionally NOT hardcoded: --font-archivo-black,
+ * Font family strings are intentionally NOT hardcoded: --font-anton,
  * --font-inter and --font-caveat are supplied by next/font/google's
  * `variable` option in src/fonts/index.ts + applied on <html>/<body> in
  * layout.tsx (a later phase). If those vars are ever unset, the plain
@@ -24,10 +24,10 @@
   --color-divider: #2a2a2a;
 
   /* — spotlight — */
-  --color-accent: #f15a29;
+  --color-accent: #ff5722;
   --color-accent-hover: #ff7a45;
-  --color-accent-glow: rgba(241, 90, 41, 0.35);
-  --color-accent-2: #f15a29;
+  --color-accent-glow: rgba(255, 87, 34, 0.45);
+  --color-accent-2: #ff5722;
   --color-accent-2-hover: #ff7a45;
 
   /* — paper (text on dark) — */
@@ -75,10 +75,18 @@
   --color-titanium: #3a3733;
   --color-titanium-dim: #2a2723;
 
-  /* Fonts — variable names supplied by next/font in layout.tsx via fonts/index.ts */
-  --font-heading: var(--font-archivo-black), "Arial Black", sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-script: var(--font-caveat), cursive;
+  /* Font *weight* has no next/font dependency, so it's safe on :root.
+     The actual --font-heading/--font-body/--font-script aliases are
+     declared on `body` below instead — next/font's `.variable` classes
+     (anton.variable/inter.variable/caveat.variable, applied on <body> in
+     layout.tsx) only define --font-anton/--font-inter/--font-caveat on
+     body itself, and CSS custom properties resolve `var()` references
+     using what's visible AT the declaring element — :root (<html>) is an
+     ANCESTOR of <body>, so it can never see a variable that only exists
+     on <body> or below. Declaring the aliases here made every var(--font-anton)
+     reference invalid at computed-value time, silently falling back to
+     the browser/Tailwind default sans-serif regardless of which Google
+     font was configured. */
   --font-heading-weight: 400;
 
   --space-1: 4px;
@@ -90,9 +98,9 @@
   --space-12: 64px;
   --space-16: 96px;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
 
   /* Elevation is a glow, never a soft grey drop shadow. */
   --shadow-sm: 0 0 0 1px var(--color-divider);
@@ -125,6 +133,12 @@ html {
     font-weight: 400;
     background: var(--color-bg);
     color: var(--color-text);
+    /* Declared here (not :root) since these reference --font-anton/
+       --font-inter/--font-caveat, which next/font's .variable classes
+       only define on this element — see the comment on :root above. */
+    --font-heading: var(--font-anton), "Arial Black", sans-serif;
+    --font-body: var(--font-inter), system-ui, sans-serif;
+    --font-script: var(--font-caveat), cursive;
     font-family: var(--font-body);
   }
 
@@ -137,7 +151,7 @@ html {
     font-family: var(--font-heading);
     font-weight: var(--font-heading-weight);
     line-height: 1.05;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     margin: 0 0 var(--space-3);
   }
   h1 {
@@ -327,7 +341,13 @@ html {
     color: var(--color-bg);
     background: var(--color-accent);
   }
+  .btn-primary:visited,
+  .btn-primary:focus,
+  .btn-primary:active {
+    color: var(--color-bg);
+  }
   .btn-primary:hover {
+    color: var(--color-bg);
     background: var(--color-accent-hover);
     box-shadow: 0 0 32px var(--color-accent-glow);
     transform: translateY(-2px);
@@ -339,7 +359,13 @@ html {
     border-color: var(--color-text);
     color: var(--color-text);
   }
+  .btn-secondary:visited,
+  .btn-secondary:focus,
+  .btn-secondary:active {
+    color: var(--color-text);
+  }
   .btn-secondary:hover {
+    color: var(--color-text);
     border-color: var(--color-accent);
   }
   .btn-secondary:active {
@@ -580,15 +606,15 @@ html {
     letter-spacing: -0.01em;
     margin-right: auto;
   }
-  .nav a {
+  .nav a:not(.btn) {
     color: var(--color-text-dim);
     text-decoration: none;
     font-size: 13px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
-  .nav a:hover,
-  .nav a[aria-current="page"] {
+  .nav a:not(.btn):hover,
+  .nav a:not(.btn)[aria-current="page"] {
     color: var(--color-accent);
   }
 

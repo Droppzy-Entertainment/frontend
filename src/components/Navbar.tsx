@@ -41,47 +41,34 @@ export function Navbar() {
       className={cn(
         "nav",
         "sticky top-0 z-50",
-        "bg-[color-mix(in_srgb,var(--color-bg)_88%,transparent)]",
+        "bg-[color-mix(in_srgb,var(--color-bg)_70%,transparent)]",
         "backdrop-blur-md"
       )}
     >
-      <a href="#top" className="mr-auto flex items-center gap-2">
-        {/* Real asset (copied from Downloads\droppzy\, not a placeholder) */}
+      <a href="#top" className="mr-auto flex items-center">
         <Image
-          src="/brand/droppzy-logo.png"
+          src="/brand/DROPPZY LOGO 2-white.png"
           alt="Droppzy Entertainment"
-          width={116}
-          height={32}
-          className="h-8 w-auto"
+          width={200}
+          height={56}
+          className="h-9 w-auto translate-y-1 sm:h-12 md:h-14"
           priority
         />
-        {/* Hidden below `sm`: logo alone (with its alt text) carries the
-            brand on narrow screens — with the Subscribe button and hamburger
-            both needing room, the "Droppzy" wordmark text was the first
-            thing to cut to keep the row from overflowing on phones. */}
-        <span className="nav-brand hidden sm:inline">Droppzy</span>
       </a>
 
-      <div className="hidden items-center gap-6 sm:flex">
-        {NAV_LINKS.map((link) => (
-          <a key={link.href} href={link.href}>
+      <div className="hidden items-center gap-8 sm:flex">
+        {NAV_LINKS.map((link, index) => (
+          <a key={link.href} href={link.href} aria-current={index === 0 ? "page" : undefined}>
             {link.label}
           </a>
         ))}
       </div>
 
-      {/* Hidden below `sm` — showing this alongside the hamburger toggle
-          overflowed the nav row on phones (logo + wordmark + button +
-          hamburger together exceed the available width). It reappears
-          inside the mobile drawer below instead. */}
+      {/* Subscribe — solid orange block matching the reference */}
       <Button
-        href={
-          // PLACEHOLDER: set the real Droppzy YouTube channel URL via the
-          // NEXT_PUBLIC_YOUTUBE_CHANNEL_URL env var in production.
-          process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_URL
-        }
+        href={process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_URL}
         variant="primary"
-        className="hidden sm:inline-flex"
+        className="hidden sm:inline-flex min-w-[140px] justify-center px-6 py-3 text-[13px] tracking-[0.1em]"
       >
         Subscribe
       </Button>
@@ -114,12 +101,13 @@ export function Navbar() {
           isOpen ? "flex" : "hidden"
         )}
       >
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS.map((link, index) => (
           <a
             key={link.href}
             href={link.href}
             className="w-full py-2"
             onClick={closeDrawer}
+            aria-current={index === 0 ? "page" : undefined}
           >
             {link.label}
           </a>

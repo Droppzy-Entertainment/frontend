@@ -83,7 +83,7 @@ export function Hero() {
             className="hero-copy-in font-heading text-[clamp(34px,10vw,52px)] sm:text-[clamp(52px,6vw,96px)] uppercase leading-[0.9] tracking-[-0.04em] text-text"
             style={{ animationDelay: "0.1s" }}
           >
-            Welcome to Droppzy Entertainment
+            Droppzy Entertainment
           </h1>
 
           <p
@@ -91,7 +91,7 @@ export function Hero() {
             style={{ animationDelay: "0.2s" }}
           >
             Your destination for exciting, original, high-quality
-            entertainment — new videos every week.
+            entertainment.
           </p>
 
           <div

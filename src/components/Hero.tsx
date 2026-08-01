@@ -155,18 +155,18 @@ export function Hero() {
             </div>
           </div>
 
-          {/* CENTER card — fills the middle gap */}
+          {/* CENTER card — fills the middle gap in landscape format */}
           <div
-            className="hero-photo absolute left-[24%] top-[28%] w-[44%] z-20"
+            className="hero-photo absolute left-[19%] top-[40%] w-[62%] z-20"
             style={{ animationDelay: "0.7s" }}
           >
             <div className="rotate-[2deg]">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.75)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_16px_64px_rgba(0,0,0,0.8)]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl shadow-[0_16px_56px_rgba(0,0,0,0.85)] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_20px_64px_rgba(0,0,0,0.95)]">
                 <Image
                   src="/photos/hero/hero-3.jpg"
                   alt="Accepting the Best Actor trophy at the Global Film Awards"
                   fill
-                  sizes="(max-width: 768px) 40vw, 260px"
+                  sizes="(max-width: 868px) 60vw, 360px"
                   className="object-cover"
                 />
               </div>

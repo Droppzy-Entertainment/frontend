@@ -61,7 +61,7 @@ export function Footer() {
         <div className="flex flex-wrap items-start justify-between gap-10">
           <div className="flex items-center gap-3">
             <Image
-              src="/brand/DROPPZY LOGO 2-white.png"
+              src="/brand/DROPPZY LOGO 2-white 2_nav.png"
               alt="Droppzy Entertainment"
               width={200}
               height={56}

@@ -12,7 +12,7 @@ export function About() {
         <div className="lg:pt-4">
           <Eyebrow>Who we are</Eyebrow>
           <h2 className="mt-4 font-heading text-[clamp(36px,4vw,56px)] uppercase leading-[0.92] tracking-[-0.04em] text-text">
-            Built after dark
+            THE NEXT WAVE OF ENTERTAINMENT
           </h2>
           <p className="mt-6 max-w-[54ch] text-lg leading-[1.75] text-text-dim">
             Droppzy Entertainment is your destination for exciting, original,

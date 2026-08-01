@@ -15,10 +15,18 @@ export function About() {
             Built after dark
           </h2>
           <p className="mt-6 max-w-[54ch] text-lg leading-[1.75] text-text-dim">
-            Droppzy started as a group chat with a camera and grew into a
-            slate: writers, editors and a cast who all keep the same hours as
-            the audience. We don&apos;t chase trends before midnight — we
-            make the thing you put on at midnight.
+            Droppzy Entertainment is your destination for exciting, original,
+            and high-quality entertainment. We bring you the best in
+            celebrity interviews, music videos, pranks, game shows, street
+            interviews, challenges, comedy, podcasts, behind-the-scenes
+            content, travel, and much more.
+          </p>
+          <p className="mt-6 max-w-[54ch] text-lg leading-[1.75] text-text-dim">
+            Our mission is to entertain, inspire, and connect people through
+            creative storytelling and unforgettable experiences. We also
+            support emerging talent by giving creators, artists, and
+            influencers a platform to showcase their work to a global
+            audience.
           </p>
           <blockquote className="script mt-8 text-[clamp(22px,2.5vw,32px)] text-accent leading-snug">
             &ldquo;the stage the moment before the show starts&rdquo;

@@ -76,24 +76,22 @@ export function Hero() {
             className="script hero-copy-in mb-5 text-[clamp(20px,2vw,30px)] text-text"
             style={{ animationDelay: "0s" }}
           >
-            after dark, the show begins
+            Where Creativity Meets Entertainment
           </p>
 
           <h1
             className="hero-copy-in font-heading text-[clamp(34px,10vw,52px)] sm:text-[clamp(52px,6vw,96px)] uppercase leading-[0.9] tracking-[-0.04em] text-text"
             style={{ animationDelay: "0.1s" }}
           >
-            <span className="block">Droppzy</span>
-            <span className="block">Entertainment</span>
+            Welcome to Droppzy Entertainment
           </h1>
 
           <p
             className="hero-copy-in mt-8 max-w-[600px] text-[clamp(15px,1.2vw,18px)] leading-[1.75] text-text-dim"
             style={{ animationDelay: "0.2s" }}
           >
-            Comedy, docuseries and late-night built for the feed that never
-            sleeps. New drops every week — the crew that treats YouTube like
-            a stage, not an upload folder.
+            Your destination for exciting, original, high-quality
+            entertainment — new videos every week.
           </p>
 
           <div

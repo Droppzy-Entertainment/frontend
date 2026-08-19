@@ -127,11 +127,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // 9. lib/mail.ts's renderTalentEmailHtml already HTML-escapes every
     // field it interpolates into the email body via escapeHtml. The one
     // field that also reaches a header-adjacent position — the outbound
-    // `subject` line (`Droppzy talent form: ${data.category}`) — is a
-    // strict Zod enum value here (TalentCategoryEnum), so it can only ever
-    // be one of three fixed literal strings and needs no redundant
-    // sanitization (unlike Contact's free-text `subject` field — see
-    // api/contact/route.ts, which does add one).
+    // `subject` line (`New Talent Form Submission from ${data.name}
+    // (${data.categories.join(", ")})`) — draws its category list from
+    // strict Zod enum values here (TalentCategoryEnum), so each entry can
+    // only ever be one of four fixed literal strings and needs no
+    // redundant sanitization (unlike Contact's free-text `subject` field —
+    // see api/contact/route.ts, which does add one).
 
     // 10. Send email.
     try {

@@ -13,7 +13,12 @@ export const whatsappNumberSchema = z
   .max(13, "Enter a valid WhatsApp number")
   .regex(/^\+?[0-9\s-]+$/, "Enter a valid WhatsApp number");
 
-export const TALENT_CATEGORY_VALUES = ["story-draft", "illustration-design", "other"] as const;
+export const TALENT_CATEGORY_VALUES = [
+  "video-editor",
+  "videographer",
+  "content-creator",
+  "social-media-seo",
+] as const;
 
 export const TalentCategoryEnum = z.enum(TALENT_CATEGORY_VALUES, {
   message: "Must select one",
@@ -28,7 +33,8 @@ export const TalentFormSchema = z
     name: z.string().trim().min(2).max(100),
     email: z.string().trim().toLowerCase().email().max(254),
     whatsappNumber: whatsappNumberSchema,
-    category: TalentCategoryEnum,
+    categories: z.array(TalentCategoryEnum).min(1, "Select at least one talent type"),
+    otherTalents: z.string().trim().max(500).optional(),
     company_website: honeypotSchema,
     formRenderedAt: z.number().int().positive(),
   })

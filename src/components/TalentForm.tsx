@@ -8,7 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { Toast } from "@/components/ui/Toast";
 import { TalentFormSchema, type TalentFormValues } from "@/lib/validation";
@@ -50,6 +50,8 @@ export function TalentForm() {
   } = useForm<TalentFormValues>({
     resolver: zodResolver(TalentFormSchema),
     defaultValues: {
+      categories: [],
+      otherTalents: "",
       company_website: "",
       formRenderedAt: 0,
     },
@@ -96,7 +98,7 @@ export function TalentForm() {
       <SectionHeading
         eyebrow="Join the cast"
         heading="Talent form"
-        intro="Writers, editors, musicians, night owls — tell us what you make and when you make it."
+        intro="Writers, editors, musicians — tell us what you make and when you make it."
         align="center"
       />
       <form
@@ -144,23 +146,35 @@ export function TalentForm() {
           />
         </Field>
 
-        <Field label="Category" htmlFor="talent-category" error={errors.category?.message}>
-          <Select
-            id="talent-category"
-            defaultValue=""
-            aria-invalid={errors.category ? "true" : undefined}
-            aria-describedby={errors.category ? "talent-category-error" : undefined}
-            {...register("category")}
+        <Field label="Category" htmlFor="talent-categories" error={errors.categories?.message}>
+          <div
+            id="talent-categories"
+            role="group"
+            aria-describedby={errors.categories ? "talent-categories-error" : undefined}
+            className="seg flex-wrap"
           >
-            <option value="" disabled>
-              Select a category
-            </option>
             {TALENT_CATEGORY_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
+              <label key={option.value} className="seg-opt">
+                <input type="checkbox" value={option.value} {...register("categories")} />
                 {option.label}
-              </option>
+              </label>
             ))}
-          </Select>
+          </div>
+        </Field>
+
+        <Field
+          label="Other talents"
+          htmlFor="talent-other-talents"
+          error={errors.otherTalents?.message}
+          hint="Optional — anything else you make that isn't listed above."
+        >
+          <Textarea
+            id="talent-other-talents"
+            rows={4}
+            aria-invalid={errors.otherTalents ? "true" : undefined}
+            aria-describedby={errors.otherTalents ? "talent-other-talents-error" : undefined}
+            {...register("otherTalents")}
+          />
         </Field>
 
         {/*

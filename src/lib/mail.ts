@@ -87,7 +87,11 @@ function renderTalentEmailHtml(data: TalentFormValues): string {
     { label: "Name", value: escapeHtml(data.name) },
     { label: "Email", value: escapeHtml(data.email) },
     { label: "WhatsApp Number", value: escapeHtml(data.whatsappNumber) },
-    { label: "Category", value: escapeHtml(data.category) },
+    { label: "Category", value: escapeHtml(data.categories.join(", ")) },
+    {
+      label: "Other Talents",
+      value: data.otherTalents ? escapeHtml(data.otherTalents).replace(/\n/g, "<br />") : "—",
+    },
   ]);
 }
 
@@ -106,7 +110,7 @@ export async function sendTalentSubmissionEmail(data: TalentFormValues): Promise
       from: env.MAIL_FROM_ADDRESS,
       to: env.TALENT_RECIPIENT_EMAIL ?? "droppzyentertainment@gmail.com",
       replyTo: data.email,
-      subject: `New Talent Form Submission from ${data.name} (${data.category})`,
+      subject: `New Talent Form Submission from ${data.name} (${data.categories.join(", ")})`,
       html: renderTalentEmailHtml(data),
     });
   } catch (error) {

@@ -21,8 +21,8 @@ export interface Category {
  *
  * NOTE: intentionally decoupled from TALENT_CATEGORY_OPTIONS below — this
  * list feeds the display-only "What We Create" cards, while the talent
- * form's dropdown is checked server-side against lib/validation.ts's
- * TalentCategoryEnum, which only recognizes its own 3 values. Expanding
+ * form's checklist is checked server-side against lib/validation.ts's
+ * TalentCategoryEnum, which only recognizes its own 4 values. Expanding
  * this list does not change what the talent form accepts.
  */
 export const CATEGORIES: Category[] = [
@@ -79,27 +79,38 @@ export const CATEGORIES: Category[] = [
 ];
 
 export interface TalentCategoryOption {
-  value: "story-draft" | "illustration-design" | "other";
+  value: "video-editor" | "videographer" | "content-creator" | "social-media-seo";
   label: string;
   description: string;
 }
 
 /**
- * The talent form's own category list — kept independent from CATEGORIES
- * above on purpose, since its values must match lib/validation.ts's
- * TalentCategoryEnum exactly (server-side validated, not sourced from this
- * file). Not the "What We Create" copy — do not merge the two.
+ * The talent form's own category checklist — kept independent from
+ * CATEGORIES above on purpose, since its values must match
+ * lib/validation.ts's TalentCategoryEnum exactly (server-side validated,
+ * not sourced from this file). Not the "What We Create" copy — do not
+ * merge the two.
  */
 export const TALENT_CATEGORY_OPTIONS: TalentCategoryOption[] = [
   {
-    value: "story-draft",
-    label: "Story Draft",
-    description: "Scripts, treatments and story ideas ready for the room.",
+    value: "video-editor",
+    label: "Video Editor",
+    description: "Cuts, pacing and post-production on finished episodes.",
   },
   {
-    value: "illustration-design",
-    label: "Illustration Design",
-    description: "Character art, key visuals and design work for the slate.",
+    value: "videographer",
+    label: "Videographer",
+    description: "Shoots the footage that becomes the show.",
+  },
+  {
+    value: "content-creator",
+    label: "Content Creator",
+    description: "Makes original content front to back.",
+  },
+  {
+    value: "social-media-seo",
+    label: "Social Media SEO",
+    description: "Grows reach and discoverability across platforms.",
   },
 ];
 

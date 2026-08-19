@@ -6,9 +6,14 @@ import { talentLimiter } from "@/lib/rate-limit";
 import { sendTalentSubmissionEmail } from "@/lib/mail";
 import { env } from "@/lib/env";
 
-// ~10KB — a coarse guard against oversized payloads, checked via the
-// Content-Length header before the body is ever read.
-const MAX_BODY_BYTES = 10 * 1024;
+// ~8MB — a coarse guard against oversized payloads, checked via the
+// Content-Length header before the body is ever read. Sized for a base64
+// -encoded CV upload (lib/validation.ts's MAX_CV_BYTES = 5MB; base64
+// encoding adds ~37% overhead, so 5MB -> ~6.7MB, plus headroom for the
+// rest of the JSON payload). The authoritative per-file size check still
+// happens in TalentFormSchema's cvFileSchema — this is only a fast
+// pre-parse reject for grossly oversized requests.
+const MAX_BODY_BYTES = 8 * 1024 * 1024;
 
 /**
  * Builds the Origin/Referer allow-list from server-only env vars. Uses the

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
+import type { ChangeEvent, CSSProperties } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Section } from "@/components/ui/Section";
@@ -35,6 +35,24 @@ const HONEYPOT_STYLE: CSSProperties = {
   overflow: "hidden",
 };
 
+// Client-side mirror of lib/validation.ts's MAX_CV_BYTES — purely for fast
+// UX feedback before reading the file. The server re-validates the real
+// decoded size regardless; this doesn't replace that check.
+const MAX_CV_BYTES = 5 * 1024 * 1024;
+
+/** Reads a File as base64, stripping the leading `data:<mime>;base64,` prefix. */
+function readFileAsBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.slice(result.indexOf(",") + 1));
+    };
+    reader.onerror = () => reject(reader.error ?? new Error("Failed to read file"));
+    reader.readAsDataURL(file);
+  });
+}
+
 /**
  * Talent submission form (#talent). Client Component: needs React Hook
  * Form state, a mount-time effect for the anti-bot timing field, and a
@@ -46,11 +64,14 @@ export function TalentForm() {
     handleSubmit,
     reset,
     setValue,
+    setError,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<TalentFormValues>({
     resolver: zodResolver(TalentFormSchema),
     defaultValues: {
       categories: [],
+      documentTypes: [],
       otherTalents: "",
       company_website: "",
       formRenderedAt: 0,
@@ -59,6 +80,10 @@ export function TalentForm() {
 
   const [status, setStatus] = useState<SubmitStatus>("idle");
 
+  const documentTypes = watch("documentTypes") ?? [];
+  const wantsCv = documentTypes.includes("cv");
+  const wantsPortfolio = documentTypes.includes("portfolio");
+
   // Anti-bot timing check: capture the render (mount) timestamp so the API
   // route can reject submissions that arrive suspiciously fast (see
   // lib/security.ts's checkTiming, minMs=2000). Identical pattern to
@@ -66,6 +91,41 @@ export function TalentForm() {
   useEffect(() => {
     setValue("formRenderedAt", Date.now());
   }, [setValue]);
+
+  // Clear whichever field belongs to a now-unchecked document type, so an
+  // attached CV or typed portfolio URL doesn't linger in the payload after
+  // the user toggles it off.
+  useEffect(() => {
+    if (!wantsCv) setValue("cvFile", undefined);
+  }, [wantsCv, setValue]);
+
+  useEffect(() => {
+    if (!wantsPortfolio) setValue("portfolioUrl", undefined);
+  }, [wantsPortfolio, setValue]);
+
+  async function handleCvFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setValue("cvFile", undefined, { shouldValidate: true });
+      return;
+    }
+    if (file.type !== "application/pdf") {
+      setError("cvFile", { message: "CV must be a PDF" });
+      event.target.value = "";
+      return;
+    }
+    if (file.size > MAX_CV_BYTES) {
+      setError("cvFile", { message: "CV must be under 5MB" });
+      event.target.value = "";
+      return;
+    }
+    const content = await readFileAsBase64(file);
+    setValue(
+      "cvFile",
+      { filename: file.name, contentType: file.type, content },
+      { shouldValidate: true },
+    );
+  }
 
   async function onSubmit(data: TalentFormValues) {
     setStatus("idle");
@@ -161,6 +221,62 @@ export function TalentForm() {
             ))}
           </div>
         </Field>
+
+        <Field label="Documents" htmlFor="talent-documents" error={errors.documentTypes?.message}>
+          <div
+            id="talent-documents"
+            role="group"
+            aria-describedby={errors.documentTypes ? "talent-documents-error" : undefined}
+            className="seg flex-wrap"
+          >
+            <label className="seg-opt">
+              <input type="checkbox" value="cv" {...register("documentTypes")} />
+              CV
+            </label>
+            <label className="seg-opt">
+              <input type="checkbox" value="portfolio" {...register("documentTypes")} />
+              Portfolio
+            </label>
+          </div>
+        </Field>
+
+        {wantsCv && (
+          <Field
+            label="Upload CV"
+            htmlFor="talent-cv-file"
+            error={errors.cvFile?.message}
+            hint="PDF only, max 5MB."
+          >
+            <Input
+              id="talent-cv-file"
+              type="file"
+              accept="application/pdf"
+              aria-invalid={errors.cvFile ? "true" : undefined}
+              aria-describedby={errors.cvFile ? "talent-cv-file-error" : undefined}
+              onChange={handleCvFileChange}
+            />
+          </Field>
+        )}
+
+        {wantsPortfolio && (
+          <Field
+            label="Portfolio URL"
+            htmlFor="talent-portfolio-url"
+            error={errors.portfolioUrl?.message}
+          >
+            <Input
+              id="talent-portfolio-url"
+              type="url"
+              placeholder="https://"
+              autoComplete="url"
+              aria-invalid={errors.portfolioUrl ? "true" : undefined}
+              aria-describedby={
+                errors.portfolioUrl ? "talent-portfolio-url-error" : undefined
+              }
+              {...register("portfolioUrl")}
+            />
+          </Field>
+        )}
 
         <Field
           label="Other talents"

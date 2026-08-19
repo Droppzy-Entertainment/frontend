@@ -83,16 +83,28 @@ function renderEmailShell(heading: string, rows: EmailRow[]): string {
 }
 
 function renderTalentEmailHtml(data: TalentFormValues): string {
-  return renderEmailShell("New Talent Submission", [
+  const rows: EmailRow[] = [
     { label: "Name", value: escapeHtml(data.name) },
     { label: "Email", value: escapeHtml(data.email) },
     { label: "WhatsApp Number", value: escapeHtml(data.whatsappNumber) },
     { label: "Category", value: escapeHtml(data.categories.join(", ")) },
-    {
-      label: "Other Talents",
-      value: data.otherTalents ? escapeHtml(data.otherTalents).replace(/\n/g, "<br />") : "—",
-    },
-  ]);
+  ];
+
+  if (data.portfolioUrl) {
+    const safeUrl = escapeHtml(data.portfolioUrl);
+    rows.push({ label: "Portfolio URL", value: `<a href="${safeUrl}">${safeUrl}</a>` });
+  }
+
+  if (data.cvFile) {
+    rows.push({ label: "CV", value: `${escapeHtml(data.cvFile.filename)} (attached)` });
+  }
+
+  rows.push({
+    label: "Other Talents",
+    value: data.otherTalents ? escapeHtml(data.otherTalents).replace(/\n/g, "<br />") : "—",
+  });
+
+  return renderEmailShell("New Talent Submission", rows);
 }
 
 function renderContactEmailHtml(data: ContactFormValues): string {
@@ -112,6 +124,9 @@ export async function sendTalentSubmissionEmail(data: TalentFormValues): Promise
       replyTo: data.email,
       subject: `New Talent Form Submission from ${data.name} (${data.categories.join(", ")})`,
       html: renderTalentEmailHtml(data),
+      attachments: data.cvFile
+        ? [{ filename: data.cvFile.filename, content: data.cvFile.content }]
+        : undefined,
     });
   } catch (error) {
     console.error("sendTalentSubmissionEmail failed:", error);
